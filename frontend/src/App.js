@@ -1,21 +1,26 @@
 import React, { useState, useEffect } from "react";
-import MessagesList from "./components/MessagesList";
 import "./App.css";
 
 function App() {
   const [messages, setMessages] = useState([]);
 
   useEffect(() => {
-    // Fetch all messages from the backend
-    fetch("http://localhost:3000/")
+    fetch("http://localhost:3000/") // Replace with your API endpoint if different
       .then((response) => response.json())
-      .then((data) => setMessages(data));
+      .then((data) => setMessages(data))
+      .catch((error) => console.error("Error fetching messages:", error));
   }, []);
 
   return (
     <div className="App">
-      <h1>Messages from Server</h1>
-      <MessagesList messages={messages} />
+      <header className="App-header">
+        <h1>Messages from API</h1>
+        <ul>
+          {messages.map((msg) => (
+            <li key={msg._id}>{msg.message}</li>
+          ))}
+        </ul>
+      </header>
     </div>
   );
 }
